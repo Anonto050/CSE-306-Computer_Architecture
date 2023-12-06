@@ -1,0 +1,212 @@
+
+ALU.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000106  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  0000015a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000015a  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000018c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  000001c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000005b1  00000000  00000000  000001e8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000517  00000000  00000000  00000799  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000024d  00000000  00000000  00000cb0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  00000f00  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000030e  00000000  00000000  00000f24  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000170  00000000  00000000  00001232  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000010  00000000  00000000  000013a2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 81 00 	jmp	0x102	; 0x102 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <main>:
+
+int main(void)
+{
+	
+	//first 4 bits data1, second 4 bits are data2
+	DDRD = 0x00;	
+  6c:	11 ba       	out	0x11, r1	; 17
+	//ALU control bits - first 3 bits 			
+	DDRB = 0xF8;
+  6e:	88 ef       	ldi	r24, 0xF8	; 248
+  70:	87 bb       	out	0x17, r24	; 23
+	
+	//first 4 bits are result, D[7] is zero flag
+	DDRA = 0x8f;			
+  72:	8f e8       	ldi	r24, 0x8F	; 143
+  74:	8a bb       	out	0x1a, r24	; 26
+	unsigned int data1,data2;
+	unsigned int ALU_result = 0;
+
+	while (1)
+	{
+		ALU_control = (0b111 & PINB);
+  76:	26 b3       	in	r18, 0x16	; 22
+  78:	27 70       	andi	r18, 0x07	; 7
+  7a:	30 e0       	ldi	r19, 0x00	; 0
+
+		data1 = PIND & 0x0F;
+  7c:	80 b3       	in	r24, 0x10	; 16
+  7e:	8f 70       	andi	r24, 0x0F	; 15
+  80:	90 e0       	ldi	r25, 0x00	; 0
+		data2 = (PIND & 0xF0) >> 4;
+  82:	40 b3       	in	r20, 0x10	; 16
+  84:	42 95       	swap	r20
+  86:	4f 70       	andi	r20, 0x0F	; 15
+  88:	64 2f       	mov	r22, r20
+  8a:	70 e0       	ldi	r23, 0x00	; 0
+		ALU_result = 0;
+
+		if(ALU_control == 0) {
+  8c:	21 15       	cp	r18, r1
+  8e:	31 05       	cpc	r19, r1
+  90:	19 f4       	brne	.+6      	; 0x98 <main+0x2c>
+			ALU_result = data1 + data2;
+  92:	86 0f       	add	r24, r22
+  94:	97 1f       	adc	r25, r23
+  96:	2e c0       	rjmp	.+92     	; 0xf4 <main+0x88>
+			} 
+		else if(ALU_control == 1){
+  98:	21 30       	cpi	r18, 0x01	; 1
+  9a:	31 05       	cpc	r19, r1
+  9c:	19 f4       	brne	.+6      	; 0xa4 <main+0x38>
+			ALU_result = data1 - data2;
+  9e:	86 1b       	sub	r24, r22
+  a0:	97 0b       	sbc	r25, r23
+  a2:	28 c0       	rjmp	.+80     	; 0xf4 <main+0x88>
+			} 
+		else if(ALU_control == 2) {
+  a4:	22 30       	cpi	r18, 0x02	; 2
+  a6:	31 05       	cpc	r19, r1
+  a8:	19 f4       	brne	.+6      	; 0xb0 <main+0x44>
+			ALU_result = data1 & data2;
+  aa:	86 23       	and	r24, r22
+  ac:	97 23       	and	r25, r23
+  ae:	22 c0       	rjmp	.+68     	; 0xf4 <main+0x88>
+			} 
+		else if(ALU_control == 3) {
+  b0:	23 30       	cpi	r18, 0x03	; 3
+  b2:	31 05       	cpc	r19, r1
+  b4:	19 f4       	brne	.+6      	; 0xbc <main+0x50>
+			ALU_result = data1 | data2;
+  b6:	86 2b       	or	r24, r22
+  b8:	97 2b       	or	r25, r23
+  ba:	1c c0       	rjmp	.+56     	; 0xf4 <main+0x88>
+			} 
+		else if(ALU_control == 4) {
+  bc:	24 30       	cpi	r18, 0x04	; 4
+  be:	31 05       	cpc	r19, r1
+  c0:	29 f4       	brne	.+10     	; 0xcc <main+0x60>
+			ALU_result = ~(data1 | data2);
+  c2:	86 2b       	or	r24, r22
+  c4:	97 2b       	or	r25, r23
+  c6:	80 95       	com	r24
+  c8:	90 95       	com	r25
+  ca:	14 c0       	rjmp	.+40     	; 0xf4 <main+0x88>
+			} 
+		else if(ALU_control == 5) {
+  cc:	25 30       	cpi	r18, 0x05	; 5
+  ce:	31 05       	cpc	r19, r1
+  d0:	31 f4       	brne	.+12     	; 0xde <main+0x72>
+			ALU_result = data1 << data2;
+  d2:	02 c0       	rjmp	.+4      	; 0xd8 <main+0x6c>
+  d4:	88 0f       	add	r24, r24
+  d6:	99 1f       	adc	r25, r25
+  d8:	4a 95       	dec	r20
+  da:	e2 f7       	brpl	.-8      	; 0xd4 <main+0x68>
+  dc:	0b c0       	rjmp	.+22     	; 0xf4 <main+0x88>
+			} 
+		else if(ALU_control == 6) {
+  de:	26 30       	cpi	r18, 0x06	; 6
+  e0:	31 05       	cpc	r19, r1
+  e2:	31 f4       	brne	.+12     	; 0xf0 <main+0x84>
+			ALU_result = data1 >> data2;
+  e4:	02 c0       	rjmp	.+4      	; 0xea <main+0x7e>
+  e6:	96 95       	lsr	r25
+  e8:	87 95       	ror	r24
+  ea:	4a 95       	dec	r20
+  ec:	e2 f7       	brpl	.-8      	; 0xe6 <main+0x7a>
+  ee:	02 c0       	rjmp	.+4      	; 0xf4 <main+0x88>
+	{
+		ALU_control = (0b111 & PINB);
+
+		data1 = PIND & 0x0F;
+		data2 = (PIND & 0xF0) >> 4;
+		ALU_result = 0;
+  f0:	80 e0       	ldi	r24, 0x00	; 0
+  f2:	90 e0       	ldi	r25, 0x00	; 0
+			} 
+		else if(ALU_control == 6) {
+			ALU_result = data1 >> data2;
+		}
+
+		ALU_result = ALU_result & 0b1111;
+  f4:	8f 70       	andi	r24, 0x0F	; 15
+  f6:	99 27       	eor	r25, r25
+		
+		//If result is zero, set the zero flag
+		if(ALU_result == 0) {
+  f8:	00 97       	sbiw	r24, 0x00	; 0
+  fa:	09 f4       	brne	.+2      	; 0xfe <main+0x92>
+			ALU_result = ALU_result | 0b10000000;
+  fc:	80 68       	ori	r24, 0x80	; 128
+		}
+
+		PORTA = ALU_result;
+  fe:	8b bb       	out	0x1b, r24	; 27
+	}
+ 100:	ba cf       	rjmp	.-140    	; 0x76 <main+0xa>
+
+00000102 <_exit>:
+ 102:	f8 94       	cli
+
+00000104 <__stop_program>:
+ 104:	ff cf       	rjmp	.-2      	; 0x104 <__stop_program>
