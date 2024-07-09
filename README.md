@@ -306,14 +306,12 @@ The numbers are in normalized form. There are two flags U (underflow) and O (ove
 </table>
 </p>
 
-### How to use:
-1. Write a valid MIPS assembly code using the defined instruction set.
-2. Compile the code with the [MIPS-assembler](3%20-%204%20bit%20MIPS%20processor/assembly_to_machine.cpp) to convert it into machine code.
-3. Open the [MIPS-simulator](3%20-%204%20bit%20MIPS%20processor/4-bit-MIPS.circ) with `logisim 2.7.1`.
-4. Load the generated `machine.txt` file (from the assembler) into the instruction memory of the simulator.
 
 ### Instruction Set Assignment:
 Each group has a specific assignment of instruction opcodes based on their section and group number. Refer to the provided assignment document for detailed opcode assignments.
+
+### Additional MIPS Details:
+The repository contains additional details and resources related to the 4-bit MIPS processor, including simulation files and implementation guides. You can explore these resources in the [Offline 3 - MIPS](https://github.com/Anonto050/CSE-306-Computer_Architecture/tree/main/Offline%203%20-%20MIPS) directory of the repository.
 
 ### Circuit Diagram:
 ![4-bit MIPS Circuit Diagram](3%20-%204%20bit%20MIPS%20processor/4-bit_mips_processor_circuit_diagram.png)
