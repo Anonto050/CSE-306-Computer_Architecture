@@ -25,27 +25,27 @@ This is a repository containing all the simulations and reports of CSE-306 Compu
 <tbody align="center">
   <tr>
     <td>0</td>
-    <td>X</td>
-    <td>0</td>
-    <td>Add</td>
-  </tr>
-  <tr>
     <td>0</td>
     <td>0</td>
-    <td>1</td>
     <td>AND</td>
   </tr>
   <tr>
     <td>0</td>
+    <td>0</td>
     <td>1</td>
+    <td>Sub</td>
+  </tr>
+  <tr>
+    <td>0</td>
     <td>1</td>
-    <td>Transfer A</td>
+    <td>X</td>
+    <td>Decrement A</td>
   </tr>
   <tr>
     <td>1</td>
     <td>0</td>
     <td>0</td>
-    <td>Decrement A</td>
+    <td>Complement A</td>
   </tr>
   <tr>
     <td>1</td>
@@ -57,7 +57,7 @@ This is a repository containing all the simulations and reports of CSE-306 Compu
     <td>1</td>
     <td>1</td>
     <td>X</td>
-    <td>Add with carry</td>
+    <td>Add</td>
   </tr>
 </tbody>
 </table>
@@ -85,67 +85,63 @@ This is a repository containing all the simulations and reports of CSE-306 Compu
 <tbody align="center">
   <tr>
     <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>A AND B</td>
+    <td>A<sub>i</sub></td>
+    <td>B<sub>i</sub></td>
+    <td>0</td>
+    <td>AND</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>0</td>
+    <td>1</td>
+    <td>A - B</td>
+    <td>A<sub>i</sub></td>
+    <td>B<sub>i</sub>'</td>
+    <td>1</td>
+    <td>Sub</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>1</td>
+    <td>0</td>
+    <td>A - 1</td>
+    <td>A<sub>i</sub></td>
+    <td>0</td>
+    <td>1</td>
+    <td>Decrement A</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>A'</td>
+    <td>A<sub>i</sub></td>
+    <td>1</td>
+    <td>0</td>
+    <td>Complement A</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>0</td>
+    <td>1</td>
+    <td>A XOR B</td>
+    <td>A<sub>i</sub></td>
+    <td>B<sub>i</sub></td>
+    <td>0</td>
+    <td>XOR</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
     <td>X</td>
-    <td>0</td>
-    <td>A</td>
-    <td rowspan="2">A<sub>i</sub></td>
-    <td rowspan="2">0</td>
-    <td rowspan="2">C<sub>i</sub></td>
-    <td>Transfer A</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>0</td>
-    <td>1</td>
-    <td>A + 1</td>
-    <td>Increment A</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>1</td>
-    <td>0</td>
-    <td rowspan="2">A ^ B</td>
-    <td rowspan="2">A<sub>i</sub>B<sub>i</sub></td>
-    <td rowspan="2">0</td>
-    <td rowspan="2">0</td>
-    <td rowspan="2">AND</td>
-  </tr>
-  <tr>
-    <td>0</td>
-    <td>1</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>0</td>
-    <td>0</td>
     <td>A + B</td>
-    <td rowspan="2">A<sub>i</sub></td>
-    <td rowspan="2">B<sub>i</sub></td>
-    <td rowspan="2">C<sub>i</sub></td>
+    <td>A<sub>i</sub></td>
+    <td>B<sub>i</sub></td>
+    <td>C<sub>i</sub></td>
     <td>Add</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>0</td>
-    <td>1</td>
-    <td>A + B + 1</td>
-    <td>Add with carry</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>1</td>
-    <td>0</td>
-    <td rowspan="2">A OR B</td>
-    <td rowspan="2">A<sub>i</sub>B<sub>i</sub>'</td>
-    <td rowspan="2">B<sub>i</sub></td>
-    <td rowspan="2">0</td>
-    <td rowspan="2">OR</td>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
   </tr>
 </tbody>
 </table>
@@ -172,7 +168,7 @@ The adder takes two 32 bit floating point numbers and adds them together. The nu
 
 |  Sign | Exponent |        Fraction        |
 |:-----:|:--------:|:---------------------:|
-| 1 bit |  10 bits | 21 bits (Lowest bits) |
+| 1 bit |  12 bits | 19 bits (Lowest bits) |
 
 The numbers are in normalized form. There are two flags U (underflow) and O (overflow) which are set if the result is too small or too large to be represented in the format.
 
@@ -187,7 +183,7 @@ The numbers are in normalized form. There are two flags U (underflow) and O (ove
 ### What individual components do:
 - **Sign check**: Checks if a 32 floating point number is positive, negative or the exponent is zero. If the number is positive then the output is the same as input. If the number is negative then it outputs the two's complement of the input. And if the exponent is zero then the output is zero.
 - **Normalizer**: Normalizes a floating point number. But if the number is overflowed or underflowed while trying to normalize then the appropriate flags are set.
-- **Rounder**: Rounds the 32 bit significand to 21 bits.
+- **Rounder**: Rounds the 32 bit significand to 19 bits.
 
 ## 4-bit MIPS Processor
 
