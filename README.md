@@ -82,6 +82,7 @@ See detailed truth tables and diagrams from the [Report](/Offline%201%20-%20ALU/
 
 - [Problem Statement](/Offline%202%20-%20FP%20Adder/CSE%20306%20Assignment2.pdf)
 - [Circuit files](/Offline%202%20-%20FP%20Adder)
+- [Report](/Offline%202%20-%20FP%20Adder/A2_Group4_Report.pdf)
 
 The adder takes two 32 bit floating point numbers and adds them together. The numbers are represented in the following format:
 
@@ -104,6 +105,10 @@ The numbers are in normalized form. There are two flags U (underflow) and O (ove
 - **Sign check**: Checks if a 32 floating point number is positive, negative or the exponent is zero. If the number is positive then the output is the same as input. If the number is negative then it outputs the two's complement of the input. And if the exponent is zero then the output is zero.
 - **Normalizer**: Normalizes a floating point number. But if the number is overflowed or underflowed while trying to normalize then the appropriate flags are set.
 - **Rounder**: Rounds the 32 bit significand to 19 bits.
+
+### Note:
+- See detailed diagrams from the [Report](/Offline%202%20-%20FP%20Adder/A2_Group4_Report.pdf)
+- There's some correction in the exponent circuit, see README of the FP Adder folder for details. 
 
 
 ## 4-bit MIPS Processor
