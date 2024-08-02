@@ -91,6 +91,15 @@ The adder takes two 32 bit floating point numbers and adds them together. The nu
 
 The numbers are in normalized form. There are two flags U (underflow) and O (overflow) which are set if the result is too small or too large to be represented in the format.
 
+### Flow chart: 
+
+![image](https://github.com/user-attachments/assets/81341576-48df-45d6-92ff-2ca1158265f9)
+
+### Circuit Diagram:
+
+![image](https://github.com/user-attachments/assets/d8d09273-89dc-4177-9616-72545d0b2f59)
+
+
 ### What individual components do:
 - **Sign check**: Checks if a 32 floating point number is positive, negative or the exponent is zero. If the number is positive then the output is the same as input. If the number is negative then it outputs the two's complement of the input. And if the exponent is zero then the output is zero.
 - **Normalizer**: Normalizes a floating point number. But if the number is overflowed or underflowed while trying to normalize then the appropriate flags are set.
